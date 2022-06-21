@@ -1,3 +1,5 @@
+const { capitalize } = require('../helper/helpFunction');
+
 //#region HTTP status
 // Success code
 module.exports.HTTP_STATUS_CREATED = 201;
@@ -26,10 +28,9 @@ module.exports.INCORRECT_PASSWORD = 'Incorrect Password';
 //#region General message
 module.exports.SUCCESS = 'Success';
 module.exports.FAIL = 'Fail';
-module.exports.message = {
-  success: (name) => `${name} Success`,
-  fail: (name) => `${name} Fail`,
-};
+//#endregion Genera
+
+//#region Message response
 module.exports.messageCreatedSuccess = (name) => `${name} Created Successfully`;
 module.exports.messageCreatedFail = (name) => `${name} Created Fail`;
 
@@ -43,4 +44,4 @@ module.exports.messageRequired = (name) => `${name} Is Required`;
 module.exports.messageExisted = (name) => `${name} Already Exists`;
 module.exports.messageNotFound = (name) => `${name} Not Found`;
 module.exports.messageInvalid = (name) => `${name} Invalid`;
-//#endregion General
+//#endregion Message response
