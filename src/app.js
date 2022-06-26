@@ -53,9 +53,9 @@ app.use((req, res, next) => {
   res.success = (message, data) => {
     const responseObj = {
       success: true,
+      message: message,
+      data: data,
     };
-    message && (responseObj.message = message);
-    data && (responseObj.data = data);
     return res.status(httpResponses.HTTP_STATUS_OK).json(responseObj);
   };
   res.createdSuccess = (message, data) => {
