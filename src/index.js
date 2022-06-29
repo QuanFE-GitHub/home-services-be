@@ -5,7 +5,7 @@ const server = http.Server(app);
 const packageInfo = require('../package.json');
 const indexRoute = require('./routes/index');
 
-server.listen(process.env.SERVER_PORT, (error) => {
+server.listen(process.env.SERVER_PORT || 5000, '0.0.0.0', (error) => {
   if (error) {
     console.log(`error: ${error}`);
     process.exit(1);
