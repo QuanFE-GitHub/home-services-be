@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const httpResponses = require('./utils/httpResponses');
 const session = require('express-session');
@@ -11,6 +12,17 @@ const keys = require('./constants/keys');
 
 initDbConnection();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 // Setup express/session
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +35,7 @@ app.use(
     cookie: { secure: true },
   })
 );
+app.use(cors());
 
 // Setup middleware response
 app.use((req, res, next) => {
