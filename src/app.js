@@ -45,24 +45,28 @@ app.use((req, res, next) => {
       message: `${httpResponses.UNAUTHORIZED}`,
     });
   };
+
   res.badRequestError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_BAD_REQUEST).json({
       success: false,
       message: message,
     });
   };
+
   res.notFoundError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_NOT_FOUND).json({
       success: false,
       message: message,
     });
   };
+
   res.internalServerError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_INTERNAL_ERROR).json({
       success: false,
       message: message,
     });
   };
+
   res.success = (message, data) => {
     const responseObj = {
       success: true,
@@ -71,6 +75,7 @@ app.use((req, res, next) => {
     };
     return res.status(httpResponses.HTTP_STATUS_OK).json(responseObj);
   };
+
   res.createdSuccess = (message, data) => {
     const responseObj = {
       success: true,
@@ -79,6 +84,7 @@ app.use((req, res, next) => {
     data && (responseObj.data = data);
     return res.status(httpResponses.HTTP_STATUS_CREATED).json(responseObj);
   };
+
   res.response = (statusCode, success, message) => {
     return res.status(statusCode).json({
       success: success,
