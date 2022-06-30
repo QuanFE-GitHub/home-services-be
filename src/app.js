@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const httpResponses = require('./utils/httpResponses');
 const session = require('express-session');
@@ -11,6 +12,17 @@ const keys = require('./constants/keys');
 
 initDbConnection();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 // Setup express/session
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +35,7 @@ app.use(
     cookie: { secure: true },
   })
 );
+app.use(cors());
 
 // Setup middleware response
 app.use((req, res, next) => {
@@ -32,24 +45,28 @@ app.use((req, res, next) => {
       message: `${httpResponses.UNAUTHORIZED}`,
     });
   };
+
   res.badRequestError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_BAD_REQUEST).json({
       success: false,
       message: message,
     });
   };
+
   res.notFoundError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_NOT_FOUND).json({
       success: false,
       message: message,
     });
   };
+
   res.internalServerError = (message) => {
     return res.status(httpResponses.HTTP_STATUS_INTERNAL_ERROR).json({
       success: false,
       message: message,
     });
   };
+
   res.success = (message, data) => {
     const responseObj = {
       success: true,
@@ -58,6 +75,7 @@ app.use((req, res, next) => {
     };
     return res.status(httpResponses.HTTP_STATUS_OK).json(responseObj);
   };
+
   res.createdSuccess = (message, data) => {
     const responseObj = {
       success: true,
@@ -66,6 +84,7 @@ app.use((req, res, next) => {
     data && (responseObj.data = data);
     return res.status(httpResponses.HTTP_STATUS_CREATED).json(responseObj);
   };
+
   res.response = (statusCode, success, message) => {
     return res.status(statusCode).json({
       success: success,
